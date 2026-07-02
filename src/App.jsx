@@ -95,8 +95,9 @@ function App() {
       </header>
 
       <main className="container">
+        <div className="layout">
         {/* 검색 폼 */}
-        <div className="search-section">
+        <div className="search-section search-col">
           <div className="form-group">
             <label htmlFor="office-select">시도교육청 *</label>
             <select
@@ -207,46 +208,54 @@ function App() {
           </button>
         </div>
 
-        {/* 에러 메시지 */}
-        {error && (
-          <div className="error-message">
-            <strong>⚠️ {error}</strong>
-          </div>
-        )}
+        {/* 결과 영역 */}
+        <div className="results-col">
+          {error && (
+            <div className="error-message">
+              <strong>⚠️ {error}</strong>
+            </div>
+          )}
 
-        {/* 급식 정보 표시 */}
-        {mealData.length > 0 && (
-          <div className="meal-section">
-            <h2>이 주의 중식 급식 ({mealData.length}일)</h2>
-            <div className="meal-list">
-              {mealData.map((meal, index) => (
-                <div key={index} className="meal-card">
-                  <h3 className="meal-date">{meal.date}</h3>
-                  <div className="meal-content">
-                    <div className="menu-section">
-                      <h4>메뉴</h4>
-                      {meal.menu && meal.menu.length > 0 ? (
-                        <ul className="menu-list">
-                          {meal.menu.map((item, idx) => (
-                            <li key={idx}>{item}</li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="no-data">메뉴 정보가 없습니다.</p>
+          {mealData.length > 0 ? (
+            <div className="meal-section">
+              <h2>이 주의 중식 급식 ({mealData.length}일)</h2>
+              <div className="meal-list">
+                {mealData.map((meal, index) => (
+                  <div key={index} className="meal-card">
+                    <h3 className="meal-date">{meal.date}</h3>
+                    <div className="meal-content">
+                      <div className="menu-section">
+                        <h4>메뉴</h4>
+                        {meal.menu && meal.menu.length > 0 ? (
+                          <ul className="menu-list">
+                            {meal.menu.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="no-data">메뉴 정보가 없습니다.</p>
+                        )}
+                      </div>
+                      {meal.calorie && meal.calorie !== 'N/A' && (
+                        <div className="calorie-section">
+                          <h4>칼로리</h4>
+                          <p>{meal.calorie}</p>
+                        </div>
                       )}
                     </div>
-                    {meal.calorie && meal.calorie !== 'N/A' && (
-                      <div className="calorie-section">
-                        <h4>칼로리</h4>
-                        <p>{meal.calorie}</p>
-                      </div>
-                    )}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            !error && (
+              <div className="empty-state">
+                <p>왼쪽에서 학교를 선택하고 급식을 조회해보세요.</p>
+              </div>
+            )
+          )}
+        </div>
+        </div>
       </main>
 
       <footer className="footer">
